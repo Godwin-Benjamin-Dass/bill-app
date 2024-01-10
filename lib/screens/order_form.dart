@@ -21,6 +21,10 @@ class _OrderFormState extends State<OrderForm> {
   final TextEditingController _buyerNameController = TextEditingController();
   final TextEditingController _buyerAddressController = TextEditingController();
   final TextEditingController _buyerGSTController = TextEditingController();
+  final TextEditingController _sellerNameController = TextEditingController();
+  final TextEditingController _sellerAddressController =
+      TextEditingController();
+  final TextEditingController _sellerGSTController = TextEditingController();
   final TextEditingController _invoiceController = TextEditingController();
 
   final List<Map<String, TextEditingController>> _products = [];
@@ -42,6 +46,36 @@ class _OrderFormState extends State<OrderForm> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the buyer address';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _sellerNameController,
+                decoration: const InputDecoration(labelText: 'Seller Name'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter the seller name';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _sellerAddressController,
+                decoration: const InputDecoration(labelText: 'Seller Address'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter the seller address';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _sellerGSTController,
+                decoration: const InputDecoration(labelText: 'Seller GST'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter the seller GST';
                   }
                   return null;
                 },
@@ -170,26 +204,15 @@ class _OrderFormState extends State<OrderForm> {
                             gstNo: _buyerGSTController.text,
                             name: _buyerNameController.text),
                         sellerDetails: SellerDetails(
-                            address:
-                                "345 sds towers east pondy road Villupuram",
-                            gstNo: "1234567894561234",
-                            name: "Hp towers"),
+                            address: _sellerAddressController.text,
+                            gstNo: _sellerGSTController.text,
+                            name: _sellerNameController.text),
                         invoiceNO: _invoiceController.text,
                         totalInWords: convertNumberToWords(
                             double.parse(calculateTotal()).round()),
                         item: lim);
                     log(im.toJson().toString());
                     printDoc(im);
-
-                    //'name': TextEditingController(),
-                    // 'gst': TextEditingController(),
-                    // 'rate': TextEditingController(),
-                    // 'perAmount': TextEditingController(),
-
-                    // Form is valid, perform submission
-                    // You can access the form data using _buyerNameController.text, _buyerAddressController.text, etc.
-                    // and _products list for the list of products
-                    // and the selected mode of payment
                   }
                 },
                 child: const Text('Generate invoice'),
