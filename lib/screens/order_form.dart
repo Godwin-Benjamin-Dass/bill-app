@@ -1,10 +1,14 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, avoid_print
 
 import 'dart:developer';
 
 import 'package:bill_app/models/invoice_model.dart';
+import 'package:bill_app/services/save_user.dart';
+import 'package:bill_app/widgets/get_user_details.dart';
 import 'package:bill_app/widgets/printable_data.dart';
+import 'package:bill_app/widgets/product_item.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -26,9 +30,32 @@ class _OrderFormState extends State<OrderForm> {
       TextEditingController();
   final TextEditingController _sellerGSTController = TextEditingController();
   final TextEditingController _invoiceController = TextEditingController();
+  final TextEditingController _cgstController = TextEditingController();
+  final TextEditingController _sgstController = TextEditingController();
 
   final List<Map<String, TextEditingController>> _products = [];
   String modeOfPayment = "Credit Card";
+
+  UserDetails? currentUser;
+  bool isLoading = false;
+  bool customSeller = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    isLoading = true;
+    setState(() {});
+    currentUser = await UserDb.getUser();
+    isLoading = false;
+    setState(() {});
+  }
+
+  String? startDate;
+  String? endDate;
 
   @override
   Widget build(BuildContext context) {
@@ -50,65 +77,43 @@ class _OrderFormState extends State<OrderForm> {
                   return null;
                 },
               ),
-              TextFormField(
-                controller: _sellerNameController,
-                decoration: const InputDecoration(labelText: 'Seller Name'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the seller name';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _sellerAddressController,
-                decoration: const InputDecoration(labelText: 'Seller Address'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the seller address';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _sellerGSTController,
-                decoration: const InputDecoration(labelText: 'Seller GST'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the seller GST';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _buyerNameController,
-                decoration: const InputDecoration(labelText: 'Buyer Name'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the buyer name';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _buyerAddressController,
-                decoration: const InputDecoration(labelText: 'Buyer Address'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the buyer address';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _buyerGSTController,
-                decoration: const InputDecoration(labelText: 'Buyer GST'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter the buyer GST';
-                  }
-                  return null;
-                },
+              if (currentUser != null)
+                Row(
+                  children: [
+                    Checkbox(
+                        value: customSeller,
+                        onChanged: ((val) {
+                          customSeller = val!;
+                          setState(() {});
+                        })),
+                    const Text("For custom seller details select this")
+                  ],
+                ),
+              if (customSeller)
+                GetUserDetails(
+                  sellerNameController: _sellerNameController,
+                  sellerAddressController: _sellerAddressController,
+                  sellerGSTController: _sellerGSTController,
+                  nameCaption: "Seller Name",
+                  addressCaption: "Seller Address",
+                  gstCaption: "Seller GST",
+                ),
+              if (currentUser == null)
+                GetUserDetails(
+                  sellerNameController: _sellerNameController,
+                  sellerAddressController: _sellerAddressController,
+                  sellerGSTController: _sellerGSTController,
+                  nameCaption: "Seller Name",
+                  addressCaption: "Seller Address",
+                  gstCaption: "Seller GST",
+                ),
+              GetUserDetails(
+                sellerNameController: _buyerNameController,
+                sellerAddressController: _buyerAddressController,
+                sellerGSTController: _buyerGSTController,
+                nameCaption: "Buyer Name",
+                addressCaption: "Buyer Address",
+                gstCaption: "Buyer GST",
               ),
               const SizedBox(height: 16),
               const Text('Product List', style: TextStyle(fontSize: 18)),
@@ -118,14 +123,18 @@ class _OrderFormState extends State<OrderForm> {
                   final index = entry.key;
                   final product = entry.value;
 
-                  return ProductItem(
-                    productNameController: product['name']!,
-                    gstController: product['gst']!,
-                    rateController: product['rate']!,
-                    perAmountController: product['perAmount']!,
-                    onRemove: () {
-                      _removeProduct(index);
-                    },
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ProductItem(
+                      siNo: (index + 1).toString(),
+                      productNameController: product['name']!,
+                      gstController: product['gst']!,
+                      rateController: product['rate']!,
+                      perAmountController: product['perAmount']!,
+                      onRemove: () {
+                        _removeProduct(index);
+                      },
+                    ),
                   );
                 }).toList(),
               ),
@@ -134,6 +143,111 @@ class _OrderFormState extends State<OrderForm> {
                 child: const Text('Add Product'),
               ),
               const SizedBox(height: 16),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                controller: _cgstController,
+                decoration: const InputDecoration(labelText: 'CGST'),
+              ),
+              TextFormField(
+                controller: _sgstController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(labelText: 'SGST'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                  onTap: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101),
+                    ).then((selectedDate) {
+                      // After selecting the date, display the time picker.
+                      if (selectedDate != null) {
+                        showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        ).then((selectedTime) {
+                          // Handle the selected date and time here.
+                          if (selectedTime != null) {
+                            DateTime selectedDateTime = DateTime(
+                              selectedDate.year,
+                              selectedDate.month,
+                              selectedDate.day,
+                              selectedTime.hour,
+                              selectedTime.minute,
+                            );
+                            startDate = selectedDateTime.toString();
+                            log(startDate
+                                .toString()); // You can use the selectedDateTime as needed.
+                            setState(() {});
+                          }
+                        });
+                      }
+                    });
+                  },
+                  child: startDate == null
+                      ? const Text(
+                          "Select Check In Date",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          "Chek in time and Date :${startDate.toString().substring(0, 16)}",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        )),
+              const SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                  onTap: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101),
+                    ).then((selectedDate) {
+                      // After selecting the date, display the time picker.
+                      if (selectedDate != null) {
+                        showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        ).then((selectedTime) {
+                          // Handle the selected date and time here.
+                          if (selectedTime != null) {
+                            DateTime selectedDateTime = DateTime(
+                              selectedDate.year,
+                              selectedDate.month,
+                              selectedDate.day,
+                              selectedTime.hour,
+                              selectedTime.minute,
+                            );
+                            endDate = selectedDateTime.toString();
+                            log(endDate
+                                .toString()); // You can use the selectedDateTime as needed.
+                            setState(() {});
+                          }
+                        });
+                      }
+                    });
+                  },
+                  child: endDate == null
+                      ? const Text(
+                          "Select Check In Date",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          "Chek out time and Date :${endDate.toString().substring(0, 16)}",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        )),
+              const SizedBox(
+                height: 10,
+              ),
+              const SizedBox(height: 16),
+              const SizedBox(
+                height: 10,
+              ),
               DropdownButtonFormField<String>(
                 value: 'Credit Card',
                 items: const [
@@ -162,23 +276,42 @@ class _OrderFormState extends State<OrderForm> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
+                  if (startDate == null) {
+                    Fluttertoast.showToast(msg: "check the start and end date");
+                    return;
+                  }
+                  if (endDate == null) {
+                    Fluttertoast.showToast(msg: "check the start and end date");
+                    return;
+                  }
                   if (_formKey.currentState!.validate()) {
                     List<ItemModel> lim = [];
 
                     for (var data in _products) {
+                      print(data["perAmount"]!.text);
                       lim.add(ItemModel(
-                          amount: ((double.parse(data["rate"]!.text) *
-                                      double.parse(data["perAmount"]!.text)) +
-                                  ((double.parse(data["rate"]!.text) *
+                          amount: ((double.parse(data["rate"]!.text.trim()) *
+                                      double.parse(data["perAmount"]!
+                                                  .text
+                                                  .trim() ==
+                                              ""
+                                          ? "0.0"
+                                          : data["perAmount"]!.text.trim())) +
+                                  ((double.parse(data["rate"]!.text.trim()) *
                                           double.parse(
-                                              data["perAmount"]!.text)) *
-                                      double.parse(data["gst"]!.text) /
+                                              data["perAmount"]!.text.trim() ==
+                                                      ""
+                                                  ? "0.0"
+                                                  : data["perAmount"]!
+                                                      .text
+                                                      .trim())) *
+                                      double.parse(data["gst"]!.text.trim()) /
                                       100))
                               .toString(),
-                          gst: data['gst']!.text,
-                          particulars: data['name']!.text,
-                          rate: data["rate"]!.text,
-                          per: data["perAmount"]!.text));
+                          gst: data['gst']!.text.trim(),
+                          particulars: data['name']!.text.trim(),
+                          rate: data["rate"]!.text.trim(),
+                          per: data["perAmount"]!.text.trim()));
                     }
                     String calculateTotal() {
                       double total = 0;
@@ -197,19 +330,30 @@ class _OrderFormState extends State<OrderForm> {
 
                     InvoiceModel im = InvoiceModel(
                         date: DateTime.now().toString(),
+                        cgst: _cgstController.text,
+                        sgst: _sgstController.text,
                         modeOfPayment: modeOfPayment,
                         total: calculateTotal(),
-                        buyerDetails: BuyerDetails(
+                        sellerDetails: currentUser != null
+                            ? customSeller
+                                ? UserDetails(
+                                    address: _sellerAddressController.text,
+                                    gstNo: _sellerGSTController.text,
+                                    name: _sellerNameController.text)
+                                : currentUser
+                            : UserDetails(
+                                address: _sellerAddressController.text,
+                                gstNo: _sellerGSTController.text,
+                                name: _sellerNameController.text),
+                        buyerDetails: UserDetails(
                             address: _buyerAddressController.text,
                             gstNo: _buyerGSTController.text,
                             name: _buyerNameController.text),
-                        sellerDetails: SellerDetails(
-                            address: _sellerAddressController.text,
-                            gstNo: _sellerGSTController.text,
-                            name: _sellerNameController.text),
                         invoiceNO: _invoiceController.text,
                         totalInWords: convertNumberToWords(
                             double.parse(calculateTotal()).round()),
+                        startDate: startDate!.substring(0, 16),
+                        endDate: endDate!.substring(0, 16),
                         item: lim);
                     log(im.toJson().toString());
                     printDoc(im);
@@ -340,55 +484,5 @@ class _OrderFormState extends State<OrderForm> {
     setState(() {
       _products.removeAt(index);
     });
-  }
-}
-
-class ProductItem extends StatelessWidget {
-  final TextEditingController productNameController;
-  final TextEditingController gstController;
-  final TextEditingController rateController;
-  final TextEditingController perAmountController;
-  final VoidCallback onRemove;
-
-  const ProductItem({
-    super.key,
-    required this.productNameController,
-    required this.gstController,
-    required this.rateController,
-    required this.perAmountController,
-    required this.onRemove,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextFormField(
-          controller: productNameController,
-          decoration: const InputDecoration(labelText: 'Product Name'),
-        ),
-        TextFormField(
-          keyboardType: TextInputType.number,
-          controller: gstController,
-          decoration: const InputDecoration(labelText: 'GST'),
-        ),
-        TextFormField(
-          keyboardType: TextInputType.number,
-          controller: rateController,
-          decoration: const InputDecoration(labelText: 'Rate'),
-        ),
-        TextFormField(
-          keyboardType: TextInputType.number,
-          controller: perAmountController,
-          decoration: const InputDecoration(labelText: 'No of days'),
-        ),
-        const SizedBox(height: 8),
-        ElevatedButton(
-          onPressed: onRemove,
-          child: const Text('Remove Product'),
-        ),
-        const SizedBox(height: 8),
-      ],
-    );
   }
 }

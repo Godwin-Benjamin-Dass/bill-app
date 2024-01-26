@@ -5,19 +5,26 @@ class InvoiceModel {
   String? total;
   String? totalInWords;
   List<ItemModel>? item;
-  BuyerDetails? buyerDetails;
-  SellerDetails? sellerDetails;
+  UserDetails? buyerDetails;
+  UserDetails? sellerDetails;
+  String? cgst;
+  String? sgst;
+  String? startDate;
+  String? endDate;
 
-  InvoiceModel({
-    this.invoiceNO,
-    this.date,
-    this.modeOfPayment,
-    this.total,
-    this.buyerDetails,
-    this.sellerDetails,
-    this.item,
-    this.totalInWords,
-  });
+  InvoiceModel(
+      {this.invoiceNO,
+      this.date,
+      this.modeOfPayment,
+      this.total,
+      this.buyerDetails,
+      this.sellerDetails,
+      this.item,
+      this.totalInWords,
+      this.cgst,
+      this.sgst,
+      this.startDate,
+      this.endDate});
 
   Map<String, dynamic> toJson() {
     return {
@@ -29,6 +36,10 @@ class InvoiceModel {
       'item': item?.map((e) => e.toJson()).toList(),
       'buyerDetails': buyerDetails?.toJson(),
       'sellerDetails': sellerDetails?.toJson(),
+      "cgst": cgst,
+      "sgst": sgst,
+      "start_date": startDate,
+      "end_date": endDate
     };
   }
 }
@@ -59,36 +70,24 @@ class ItemModel {
   }
 }
 
-class BuyerDetails {
+class UserDetails {
   String? name;
   String? address;
   String? gstNo;
 
-  BuyerDetails({
+  UserDetails({
     this.name,
     this.address,
     this.gstNo,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'address': address,
-      'gstNo': gstNo,
-    };
+  factory UserDetails.fromJson(Map<String, dynamic> json) {
+    return UserDetails(
+      name: json['name'],
+      address: json['address'],
+      gstNo: json['gstNo'],
+    );
   }
-}
-
-class SellerDetails {
-  String? name;
-  String? address;
-  String? gstNo;
-
-  SellerDetails({
-    this.name,
-    this.address,
-    this.gstNo,
-  });
 
   Map<String, dynamic> toJson() {
     return {
