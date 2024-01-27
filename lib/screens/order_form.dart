@@ -131,6 +131,7 @@ class _OrderFormState extends State<OrderForm> {
                       gstController: product['gst']!,
                       rateController: product['rate']!,
                       perAmountController: product['perAmount']!,
+                      noOfPerson: product["noOfPeople"]!,
                       onRemove: () {
                         _removeProduct(index);
                       },
@@ -305,13 +306,14 @@ class _OrderFormState extends State<OrderForm> {
                                                   : data["perAmount"]!
                                                       .text
                                                       .trim())) *
-                                      double.parse(data["gst"]!.text.trim()) /
+                                      double.parse("0.0") /
                                       100))
                               .toString(),
                           gst: data['gst']!.text.trim(),
                           particulars: data['name']!.text.trim(),
                           rate: data["rate"]!.text.trim(),
-                          per: data["perAmount"]!.text.trim()));
+                          per: data["perAmount"]!.text.trim(),
+                          noOfPeople: data["noOfPeople"]!.text.trim()));
                     }
                     String calculateTotal() {
                       double total = 0;
@@ -476,6 +478,7 @@ class _OrderFormState extends State<OrderForm> {
         'gst': TextEditingController(),
         'rate': TextEditingController(),
         'perAmount': TextEditingController(),
+        'noOfPeople': TextEditingController(),
       });
     });
   }

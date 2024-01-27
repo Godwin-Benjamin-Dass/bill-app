@@ -70,7 +70,7 @@ buildPrintableData(
                 children: [
                   pw.Text("SI No"),
                   pw.Text('Rooms'),
-                  pw.Text('Per Room GST'),
+                  pw.Text('No Of Person'),
                   pw.Text('Price'),
                   pw.Text('No of Rooms'),
                   pw.Text('Amount')
@@ -94,7 +94,7 @@ buildPrintableData(
                         ),
                         pw.SizedBox(
                           width: 70,
-                          child: pw.Text(item.gst!),
+                          child: pw.Text(item.noOfPeople!),
                         ),
                         pw.SizedBox(
                           width: 90,
@@ -125,7 +125,7 @@ buildPrintableData(
                   ),
                   pw.SizedBox(
                     width: 70,
-                    child: pw.Text(im.cgst!),
+                    child: pw.Text("${im.cgst!}%"),
                   ),
                   pw.SizedBox(
                     width: 170,
@@ -151,7 +151,7 @@ buildPrintableData(
                   ),
                   pw.SizedBox(
                     width: 70,
-                    child: pw.Text(im.sgst!),
+                    child: pw.Text("${im.sgst!}%"),
                   ),
                   pw.SizedBox(
                     width: 170,
@@ -291,7 +291,7 @@ buildPrintableData(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.SizedBox(
-                    width: 250,
+                    width: 200,
                     child: pw.Text(
                         "${totalToWords((double.parse(im.total!) + double.parse((double.parse(im.total ?? "0") * (double.parse(im.sgst!) / 100)).toStringAsFixed(2)) + double.parse((double.parse(im.total ?? "0") * (double.parse(im.cgst!) / 100)).toStringAsFixed(2))).toString())} Only"),
                     // pw.Text(convertAmountToWords(
@@ -307,7 +307,7 @@ buildPrintableData(
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.end,
                     children: [
-                      pw.Text("for ${im.sellerDetails!.name}"),
+                      pw.Text("for V.R. VENGATESH(Park Regency)"),
                       pw.Text("Authorised Signature"),
                     ],
                   ),

@@ -7,6 +7,7 @@ class ProductItem extends StatelessWidget {
   final TextEditingController gstController;
   final TextEditingController rateController;
   final TextEditingController perAmountController;
+  final TextEditingController noOfPerson;
   final VoidCallback onRemove;
 
   const ProductItem({
@@ -17,6 +18,7 @@ class ProductItem extends StatelessWidget {
     required this.perAmountController,
     required this.onRemove,
     required this.siNo,
+    required this.noOfPerson,
   });
 
   @override
@@ -45,10 +47,15 @@ class ProductItem extends StatelessWidget {
               controller: productNameController,
               decoration: const InputDecoration(labelText: 'Product Name'),
             ),
+            // TextFormField(
+            //   keyboardType: TextInputType.number,
+            //   controller: gstController,
+            //   decoration: const InputDecoration(labelText: 'GST'),
+            // ),
             TextFormField(
               keyboardType: TextInputType.number,
-              controller: gstController,
-              decoration: const InputDecoration(labelText: 'GST'),
+              controller: noOfPerson,
+              decoration: const InputDecoration(labelText: 'no of person'),
             ),
             TextFormField(
               keyboardType: TextInputType.number,

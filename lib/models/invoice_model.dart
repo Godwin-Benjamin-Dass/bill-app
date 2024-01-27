@@ -47,6 +47,7 @@ class InvoiceModel {
 class ItemModel {
   String? particulars;
   String? gst;
+  String? noOfPeople;
   String? rate;
   String? per;
   String? amount;
@@ -54,6 +55,7 @@ class ItemModel {
   ItemModel({
     this.particulars,
     this.gst,
+    this.noOfPeople,
     this.rate,
     this.per,
     this.amount,
@@ -63,6 +65,7 @@ class ItemModel {
     return {
       'particulars': particulars,
       'gst': gst,
+      'noOfPeople': noOfPeople,
       'rate': rate,
       'per': per,
       'amount': amount,
