@@ -60,10 +60,18 @@ buildPrintableData(
                 ],
               ),
               pw.Divider(),
-              pw.Text("Bill To"),
-              pw.Text(im.buyerDetails!.name!),
-              pw.Text(im.buyerDetails!.address!),
-              pw.Text("${im.buyerDetails!.gstNo}"),
+              pw.SizedBox(
+                width: 150,
+                child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text("Bill To"),
+                      pw.Text(im.buyerDetails!.name!),
+                      pw.Text(im.buyerDetails!.address!),
+                      pw.Text("${im.buyerDetails!.gstNo}"),
+                    ]),
+              ),
+
               pw.Divider(),
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
