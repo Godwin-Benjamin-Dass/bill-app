@@ -27,13 +27,13 @@ buildPrintableData(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   pw.SizedBox(
-                    width: 100,
+                    width: 150,
                     child: pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
                         pw.Text(im.sellerDetails!.name!),
                         pw.Text(im.sellerDetails!.address!),
-                        pw.Text("GST NO:${im.sellerDetails!.gstNo}"),
+                        pw.Text("GST NO: ${im.sellerDetails!.gstNo}"),
                       ],
                     ),
                   ),
@@ -60,17 +60,17 @@ buildPrintableData(
                 ],
               ),
               pw.Divider(),
-              pw.Text("Buyer(Bill To)"),
+              pw.Text("Bill To"),
               pw.Text(im.buyerDetails!.name!),
               pw.Text(im.buyerDetails!.address!),
-              pw.Text("GST NO:${im.buyerDetails!.gstNo}"),
+              pw.Text("${im.buyerDetails!.gstNo}"),
               pw.Divider(),
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   pw.Text("SI No"),
                   pw.Text('Rooms'),
-                  pw.Text('No Of Person'),
+                  pw.Text('No Of Persons'),
                   pw.Text('Price'),
                   pw.Text('No of Rooms'),
                   pw.Text('Amount')
