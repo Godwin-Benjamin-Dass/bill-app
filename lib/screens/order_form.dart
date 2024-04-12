@@ -298,10 +298,10 @@ class _OrderFormState extends State<OrderForm> {
                     value: 'Cash',
                     child: Text('Cash'),
                   ),
-                  // DropdownMenuItem(
-                  //   value: 'Upi',
-                  //   child: Text('Upi'),
-                  // ),
+                  DropdownMenuItem(
+                    value: 'Upi',
+                    child: Text('Upi'),
+                  ),
                 ],
                 onChanged: (value) {
                   modeOfPayment = value!;
