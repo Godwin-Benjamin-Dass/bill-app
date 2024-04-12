@@ -192,92 +192,92 @@ class _OrderFormState extends State<OrderForm> {
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'SGST'),
               ),
-              // const SizedBox(height: 16),
-              // InkWell(
-              //     onTap: () {
-              //       showDatePicker(
-              //         context: context,
-              //         initialDate: DateTime.now(),
-              //         firstDate: DateTime(2000),
-              //         lastDate: DateTime(2101),
-              //       ).then((selectedDate) {
-              //         // After selecting the date, display the time picker.
-              //         if (selectedDate != null) {
-              //           showTimePicker(
-              //             context: context,
-              //             initialTime: TimeOfDay.now(),
-              //           ).then((selectedTime) {
-              //             // Handle the selected date and time here.
-              //             if (selectedTime != null) {
-              //               DateTime selectedDateTime = DateTime(
-              //                 selectedDate.year,
-              //                 selectedDate.month,
-              //                 selectedDate.day,
-              //                 selectedTime.hour,
-              //                 selectedTime.minute,
-              //               );
-              //               startDate = selectedDateTime.toString();
-              //               log(startDate
-              //                   .toString()); // You can use the selectedDateTime as needed.
-              //               setState(() {});
-              //             }
-              //           });
-              //         }
-              //       });
-              //     },
-              //     child: startDate == null
-              //         ? const Text(
-              //             "Select Check In Date",
-              //             style: TextStyle(fontWeight: FontWeight.bold),
-              //           )
-              //         : Text(
-              //             "Check in time and Date :${startDate.toString().substring(0, 16)}",
-              //             style: const TextStyle(fontWeight: FontWeight.bold),
-              //           )),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              // InkWell(
-              //     onTap: () {
-              //       showDatePicker(
-              //         context: context,
-              //         initialDate: DateTime.now(),
-              //         firstDate: DateTime(2000),
-              //         lastDate: DateTime(2101),
-              //       ).then((selectedDate) {
-              //         // After selecting the date, display the time picker.
-              //         if (selectedDate != null) {
-              //           showTimePicker(
-              //             context: context,
-              //             initialTime: TimeOfDay.now(),
-              //           ).then((selectedTime) {
-              //             // Handle the selected date and time here.
-              //             if (selectedTime != null) {
-              //               DateTime selectedDateTime = DateTime(
-              //                 selectedDate.year,
-              //                 selectedDate.month,
-              //                 selectedDate.day,
-              //                 selectedTime.hour,
-              //                 selectedTime.minute,
-              //               );
-              //               endDate = selectedDateTime.toString();
-              //               log(endDate
-              //                   .toString()); // You can use the selectedDateTime as needed.
-              //               setState(() {});
-              //             }
-              //           });
-              //         }
-              //       });
-              //     },
-              //     child: endDate == null
-              //         ? const Text(
-              //             "Select Check Out Date",
-              //             style: TextStyle(fontWeight: FontWeight.bold),
-              //           )
-              //         : Text(
-              //             "Check out time and Date :${endDate.toString().substring(0, 16)}",
-              //             style: const TextStyle(fontWeight: FontWeight.bold),
-              //           )),
+              const SizedBox(height: 16),
+              InkWell(
+                  onTap: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101),
+                    ).then((selectedDate) {
+                      // After selecting the date, display the time picker.
+                      if (selectedDate != null) {
+                        showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        ).then((selectedTime) {
+                          // Handle the selected date and time here.
+                          if (selectedTime != null) {
+                            DateTime selectedDateTime = DateTime(
+                              selectedDate.year,
+                              selectedDate.month,
+                              selectedDate.day,
+                              selectedTime.hour,
+                              selectedTime.minute,
+                            );
+                            startDate = selectedDateTime.toString();
+                            log(startDate
+                                .toString()); // You can use the selectedDateTime as needed.
+                            setState(() {});
+                          }
+                        });
+                      }
+                    });
+                  },
+                  child: startDate == null
+                      ? const Text(
+                          "Select Check In Date",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          "Check in time and Date :${startDate.toString().substring(0, 16)}",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        )),
+              const SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                  onTap: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101),
+                    ).then((selectedDate) {
+                      // After selecting the date, display the time picker.
+                      if (selectedDate != null) {
+                        showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        ).then((selectedTime) {
+                          // Handle the selected date and time here.
+                          if (selectedTime != null) {
+                            DateTime selectedDateTime = DateTime(
+                              selectedDate.year,
+                              selectedDate.month,
+                              selectedDate.day,
+                              selectedTime.hour,
+                              selectedTime.minute,
+                            );
+                            endDate = selectedDateTime.toString();
+                            log(endDate
+                                .toString()); // You can use the selectedDateTime as needed.
+                            setState(() {});
+                          }
+                        });
+                      }
+                    });
+                  },
+                  child: endDate == null
+                      ? const Text(
+                          "Select Check Out Date",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          "Check out time and Date :${endDate.toString().substring(0, 16)}",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        )),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: 'Credit',
@@ -315,14 +315,14 @@ class _OrderFormState extends State<OrderForm> {
                     Fluttertoast.showToast(msg: "check the bill date");
                     return;
                   }
-                  // if (startDate == null) {
-                  //   Fluttertoast.showToast(msg: "check the start and end date");
-                  //   return;
-                  // }
-                  // if (endDate == null) {
-                  //   Fluttertoast.showToast(msg: "check the start and end date");
-                  //   return;
-                  // }
+                  if (startDate == null) {
+                    Fluttertoast.showToast(msg: "check the start and end date");
+                    return;
+                  }
+                  if (endDate == null) {
+                    Fluttertoast.showToast(msg: "check the start and end date");
+                    return;
+                  }
                   if (_formKey.currentState!.validate()) {
                     List<ItemModel> lim = [];
 
@@ -392,8 +392,8 @@ class _OrderFormState extends State<OrderForm> {
                         invoiceNO: _invoiceController.text,
                         totalInWords: convertNumberToWords(
                             double.parse(calculateTotal()).round()),
-                        // startDate: startDate!.substring(0, 16),
-                        // endDate: endDate!.substring(0, 16),
+                        startDate: startDate!.substring(0, 16),
+                        endDate: endDate!.substring(0, 16),
                         item: lim);
                     log(im.toJson().toString());
                     printDoc(im);

@@ -46,7 +46,7 @@ class ProductItem extends StatelessWidget {
             TextFormField(
               controller: productNameController,
               decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Product Name'),
+                  border: OutlineInputBorder(), labelText: 'Room'),
             ),
             // TextFormField(
             //   keyboardType: TextInputType.number,
@@ -56,15 +56,15 @@ class ProductItem extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            // TextFormField(
-            //   keyboardType: TextInputType.number,
-            //   controller: noOfPerson,
-            //   decoration: const InputDecoration(
-            //       border: OutlineInputBorder(), labelText: 'no of person'),
-            // ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
+            TextFormField(
+              keyboardType: TextInputType.number,
+              controller: noOfPerson,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'no of person'),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               keyboardType: TextInputType.number,
               controller: rateController,
@@ -78,7 +78,7 @@ class ProductItem extends StatelessWidget {
               keyboardType: TextInputType.number,
               controller: perAmountController,
               decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Quantiy'),
+                  border: OutlineInputBorder(), labelText: 'No of days'),
             ),
             const SizedBox(height: 8),
           ],

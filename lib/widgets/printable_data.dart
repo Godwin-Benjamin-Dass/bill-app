@@ -14,13 +14,13 @@ buildPrintableData(
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
-              pw.Center(
-                child: pw.Text(
-                  'Jesus protects all!!',
-                  style: pw.TextStyle(
-                      fontSize: 18, fontWeight: pw.FontWeight.bold),
-                ),
-              ),
+              // pw.Center(
+              //   child: pw.Text(
+              //     'Jesus protects all!!',
+              //     style: pw.TextStyle(
+              //         fontSize: 18, fontWeight: pw.FontWeight.bold),
+              //   ),
+              // ),
               pw.SizedBox(height: 20),
               pw.Center(
                 child: pw.Text(
@@ -85,10 +85,10 @@ buildPrintableData(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   pw.Text("SI No"),
-                  pw.Text('Product'),
-                  // pw.Text('No Of Persons'),
-                  pw.Text('Price'),
-                  pw.Text('Quantiy'),
+                  pw.Text('Rooms'),
+                  pw.Text('No Of Persons'),
+                  pw.Text('Rate'),
+                  pw.Text('No of Days'),
                   pw.Text('Amount')
                 ],
               ),
@@ -109,21 +109,21 @@ buildPrintableData(
                           child: pw.Text(item.particulars!),
                         ),
                         pw.SizedBox(
-                          width: 40,
-                          // child: pw.Text(item.noOfPeople!),
+                          width: 80,
+                          child: pw.Text(item.noOfPeople!),
                         ),
                         pw.SizedBox(
-                          width: 90,
+                          width: 80,
                           child: pw.Text(item.rate!),
                         ),
                         pw.SizedBox(
                           width: 80,
                           child: pw.Text(item.per!),
                         ),
-                        pw.SizedBox(
-                          width: 20,
-                          // child: pw.Text(item.noOfPeople!),
-                        ),
+                        // pw.SizedBox(
+                        //   width: 20,
+                        //   child: pw.Text(item.noOfPeople!),
+                        // ),
                         pw.Container(
                           width: 90,
                           alignment: pw.Alignment.centerLeft,
@@ -185,49 +185,49 @@ buildPrintableData(
                   ),
                 ],
               ),
-              // pw.Divider(),
-              // pw.Row(
-              //   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     pw.SizedBox(
-              //       width: 75,
-              //     ),
-              //     pw.SizedBox(
-              //       width: 95,
-              //       child: pw.Text("Check In"),
-              //     ),
-              //     pw.SizedBox(
-              //       child: pw.Text(im.endDate!),
-              //     ),
-              //     pw.SizedBox(
-              //       width: 170,
-              //     ),
-              //     pw.Container(
-              //       width: 90,
-              //       alignment: pw.Alignment.centerLeft,
-              //     ),
-              //   ],
-              // ),
-              // pw.Row(
-              //   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     pw.SizedBox(
-              //       width: 75,
-              //     ),
-              //     pw.SizedBox(
-              //       width: 95,
-              //       child: pw.Text("Check Out"),
-              //     ),
-              //     pw.SizedBox(child: pw.Text(im.endDate!)),
-              //     pw.SizedBox(
-              //       width: 170,
-              //     ),
-              //     pw.Container(
-              //       width: 90,
-              //       alignment: pw.Alignment.centerLeft,
-              //     ),
-              //   ],
-              // ),
+              pw.Divider(),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.SizedBox(
+                    width: 75,
+                  ),
+                  pw.SizedBox(
+                    width: 95,
+                    child: pw.Text("Check In"),
+                  ),
+                  pw.SizedBox(
+                    child: pw.Text(im.startDate!),
+                  ),
+                  pw.SizedBox(
+                    width: 170,
+                  ),
+                  pw.Container(
+                    width: 90,
+                    alignment: pw.Alignment.centerLeft,
+                  ),
+                ],
+              ),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.SizedBox(
+                    width: 75,
+                  ),
+                  pw.SizedBox(
+                    width: 95,
+                    child: pw.Text("Check Out"),
+                  ),
+                  pw.SizedBox(child: pw.Text(im.endDate!)),
+                  pw.SizedBox(
+                    width: 170,
+                  ),
+                  pw.Container(
+                    width: 90,
+                    alignment: pw.Alignment.centerLeft,
+                  ),
+                ],
+              ),
               pw.Divider(),
 
               pw.Container(
@@ -319,8 +319,7 @@ buildPrintableData(
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.end,
                     children: [
-                      pw.Text("for ${im.sellerDetails!.name}"),
-                      pw.SizedBox(height: 20),
+                      pw.Text("for V.R. VENGATESH(Park Regency)"),
                       pw.Text("Authorised Signature"),
                     ],
                   ),
