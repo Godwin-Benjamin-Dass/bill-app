@@ -14,6 +14,14 @@ buildPrintableData(
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
+              // pw.Center(
+              //   child: pw.Text(
+              //     'Jesus protects all!!',
+              //     style: pw.TextStyle(
+              //         fontSize: 18, fontWeight: pw.FontWeight.bold),
+              //   ),
+              // ),
+              pw.SizedBox(height: 20),
               pw.Center(
                 child: pw.Text(
                   'Tax Invoice',
@@ -27,13 +35,13 @@ buildPrintableData(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   pw.SizedBox(
-                    width: 100,
+                    width: 150,
                     child: pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
                         pw.Text(im.sellerDetails!.name!),
                         pw.Text(im.sellerDetails!.address!),
-                        pw.Text("GST NO:${im.sellerDetails!.gstNo}"),
+                        pw.Text("GST NO: ${im.sellerDetails!.gstNo}"),
                       ],
                     ),
                   ),
@@ -60,19 +68,27 @@ buildPrintableData(
                 ],
               ),
               pw.Divider(),
-              pw.Text("Buyer(Bill To)"),
-              pw.Text(im.buyerDetails!.name!),
-              pw.Text(im.buyerDetails!.address!),
-              pw.Text("GST NO:${im.buyerDetails!.gstNo}"),
+              pw.SizedBox(
+                width: 150,
+                child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text("Bill To"),
+                      pw.Text(im.buyerDetails!.name!),
+                      pw.Text(im.buyerDetails!.address!),
+                      pw.Text("${im.buyerDetails!.gstNo}"),
+                    ]),
+              ),
+
               pw.Divider(),
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   pw.Text("SI No"),
                   pw.Text('Rooms'),
-                  pw.Text('No Of Person'),
-                  pw.Text('Price'),
-                  pw.Text('No of Rooms'),
+                  pw.Text('No Of Persons'),
+                  pw.Text('Rate'),
+                  pw.Text('No of Days'),
                   pw.Text('Amount')
                 ],
               ),
@@ -93,17 +109,21 @@ buildPrintableData(
                           child: pw.Text(item.particulars!),
                         ),
                         pw.SizedBox(
-                          width: 70,
+                          width: 80,
                           child: pw.Text(item.noOfPeople!),
                         ),
                         pw.SizedBox(
-                          width: 90,
+                          width: 80,
                           child: pw.Text(item.rate!),
                         ),
                         pw.SizedBox(
                           width: 80,
                           child: pw.Text(item.per!),
                         ),
+                        // pw.SizedBox(
+                        //   width: 20,
+                        //   child: pw.Text(item.noOfPeople!),
+                        // ),
                         pw.Container(
                           width: 90,
                           alignment: pw.Alignment.centerLeft,
@@ -121,14 +141,14 @@ buildPrintableData(
                   ),
                   pw.SizedBox(
                     width: 95,
-                    child: pw.Text("CGST"),
+                    child: pw.Text("Output CGST"),
                   ),
                   pw.SizedBox(
                     width: 70,
                     child: pw.Text("${im.cgst!}%"),
                   ),
                   pw.SizedBox(
-                    width: 170,
+                    width: 160,
                   ),
                   pw.Container(
                     width: 90,
@@ -147,14 +167,14 @@ buildPrintableData(
                   ),
                   pw.SizedBox(
                     width: 95,
-                    child: pw.Text("SGST"),
+                    child: pw.Text("Output SGST"),
                   ),
                   pw.SizedBox(
                     width: 70,
                     child: pw.Text("${im.sgst!}%"),
                   ),
                   pw.SizedBox(
-                    width: 170,
+                    width: 160,
                   ),
                   pw.Container(
                     width: 90,
@@ -177,7 +197,7 @@ buildPrintableData(
                     child: pw.Text("Check In"),
                   ),
                   pw.SizedBox(
-                    child: pw.Text(im.endDate!),
+                    child: pw.Text(im.startDate!),
                   ),
                   pw.SizedBox(
                     width: 170,
@@ -213,7 +233,7 @@ buildPrintableData(
               pw.Container(
                 alignment: pw.Alignment.center,
                 child: pw.Text(
-                    "Total : Rs ${(double.parse(im.total!) + double.parse((double.parse(im.total ?? "0") * (double.parse(im.sgst!) / 100)).toStringAsFixed(2)) + double.parse((double.parse(im.total ?? "0") * (double.parse(im.cgst!) / 100)).toStringAsFixed(2))).toStringAsFixed(2)}",
+                    "Total : Rs ${(double.parse(im.total!) + double.parse((double.parse(im.total ?? "0") * (double.parse(im.sgst!) / 100)).toStringAsFixed(2)) + double.parse((double.parse(im.total ?? "0") * (double.parse(im.cgst!) / 100)).toStringAsFixed(2))).toStringAsFixed(2)} /-",
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
               ),
               pw.Divider(),
@@ -293,15 +313,7 @@ buildPrintableData(
                   pw.SizedBox(
                     width: 200,
                     child: pw.Text(
-                        "${totalToWords((double.parse(im.total!) + double.parse((double.parse(im.total ?? "0") * (double.parse(im.sgst!) / 100)).toStringAsFixed(2)) + double.parse((double.parse(im.total ?? "0") * (double.parse(im.cgst!) / 100)).toStringAsFixed(2))).toString())} Only"),
-                    // pw.Text(convertAmountToWords(
-                    //     double.parse(im.total!) +
-                    //         double.parse((double.parse(im.total ?? "0") *
-                    //                 (double.parse(im.sgst!) / 100))
-                    //             .toStringAsFixed(2)) +
-                    //         double.parse((double.parse(im.total ?? "0") *
-                    //                 (double.parse(im.cgst!) / 100))
-                    //             .toStringAsFixed(2)))),
+                        "${totalToWords((double.parse(im.total!) + double.parse((double.parse(im.total ?? "0") * (double.parse(im.sgst!) / 100)).toStringAsFixed(2)) + double.parse((double.parse(im.total ?? "0") * (double.parse(im.cgst!) / 100)).toStringAsFixed(2))).toStringAsFixed(2))} Only"),
                   ),
                   pw.Spacer(),
                   pw.Column(

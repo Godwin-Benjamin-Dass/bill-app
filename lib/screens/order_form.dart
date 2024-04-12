@@ -34,7 +34,7 @@ class _OrderFormState extends State<OrderForm> {
   final TextEditingController _sgstController = TextEditingController();
 
   final List<Map<String, TextEditingController>> _products = [];
-  String modeOfPayment = "Credit Card";
+  String modeOfPayment = "Credit";
 
   UserDetails? currentUser;
   bool isLoading = false;
@@ -54,6 +54,7 @@ class _OrderFormState extends State<OrderForm> {
     setState(() {});
   }
 
+  String? billDate;
   String? startDate;
   String? endDate;
 
@@ -68,14 +69,46 @@ class _OrderFormState extends State<OrderForm> {
             children: [
               TextFormField(
                 controller: _invoiceController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Invoice no'),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Invoice no'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the buyer address';
                   }
                   return null;
                 },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              InkWell(
+                  onTap: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101),
+                    ).then((selectedDate) {
+                      // After selecting the date, display the time picker.
+                      if (selectedDate != null) {
+                        billDate = selectedDate.toString();
+                        log(billDate
+                            .toString()); // You can use the selectedDateTime as needed.
+                        setState(() {});
+                      }
+                    });
+                  },
+                  child: billDate == null
+                      ? const Text(
+                          "Select Bill Date",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          "Bill Date :  ${billDate.toString().substring(0, 10)}",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        )),
+              const SizedBox(
+                height: 16,
               ),
               if (currentUser != null)
                 Row(
@@ -147,16 +180,19 @@ class _OrderFormState extends State<OrderForm> {
               TextFormField(
                 keyboardType: TextInputType.number,
                 controller: _cgstController,
-                decoration: const InputDecoration(labelText: 'CGST'),
-              ),
-              TextFormField(
-                controller: _sgstController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'SGST'),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'CGST'),
               ),
               const SizedBox(
                 height: 10,
               ),
+              TextFormField(
+                controller: _sgstController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'SGST'),
+              ),
+              const SizedBox(height: 16),
               InkWell(
                   onTap: () {
                     showDatePicker(
@@ -195,7 +231,7 @@ class _OrderFormState extends State<OrderForm> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       : Text(
-                          "Chek in time and Date :${startDate.toString().substring(0, 16)}",
+                          "Check in time and Date :${startDate.toString().substring(0, 16)}",
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         )),
               const SizedBox(
@@ -235,39 +271,37 @@ class _OrderFormState extends State<OrderForm> {
                   },
                   child: endDate == null
                       ? const Text(
-                          "Select Check In Date",
+                          "Select Check Out Date",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       : Text(
-                          "Chek out time and Date :${endDate.toString().substring(0, 16)}",
+                          "Check out time and Date :${endDate.toString().substring(0, 16)}",
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         )),
-              const SizedBox(
-                height: 10,
-              ),
               const SizedBox(height: 16),
-              const SizedBox(
-                height: 10,
-              ),
               DropdownButtonFormField<String>(
-                value: 'Credit Card',
+                value: 'Credit',
                 items: const [
+                  // DropdownMenuItem(
+                  //   value: 'Credit Card',
+                  //   child: Text('Credit Card'),
+                  // ),
+                  // DropdownMenuItem(
+                  //   value: 'Debit Card',
+                  //   child: Text('Debit Card'),
+                  // ),
                   DropdownMenuItem(
-                    value: 'Credit Card',
-                    child: Text('Credit Card'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Debit Card',
-                    child: Text('Debit Card'),
+                    value: 'Credit',
+                    child: Text('Credit'),
                   ),
                   DropdownMenuItem(
                     value: 'Cash',
                     child: Text('Cash'),
                   ),
-                  DropdownMenuItem(
-                    value: 'Upi',
-                    child: Text('Upi'),
-                  ),
+                  // DropdownMenuItem(
+                  //   value: 'Upi',
+                  //   child: Text('Upi'),
+                  // ),
                 ],
                 onChanged: (value) {
                   modeOfPayment = value!;
@@ -277,6 +311,10 @@ class _OrderFormState extends State<OrderForm> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
+                  if (billDate == null) {
+                    Fluttertoast.showToast(msg: "check the bill date");
+                    return;
+                  }
                   if (startDate == null) {
                     Fluttertoast.showToast(msg: "check the start and end date");
                     return;
@@ -331,7 +369,7 @@ class _OrderFormState extends State<OrderForm> {
                     }
 
                     InvoiceModel im = InvoiceModel(
-                        date: DateTime.now().toString(),
+                        date: billDate,
                         cgst: _cgstController.text,
                         sgst: _sgstController.text,
                         modeOfPayment: modeOfPayment,

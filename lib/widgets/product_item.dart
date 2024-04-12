@@ -45,27 +45,40 @@ class ProductItem extends StatelessWidget {
             ),
             TextFormField(
               controller: productNameController,
-              decoration: const InputDecoration(labelText: 'Product Name'),
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Room'),
             ),
             // TextFormField(
             //   keyboardType: TextInputType.number,
             //   controller: gstController,
             //   decoration: const InputDecoration(labelText: 'GST'),
             // ),
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               keyboardType: TextInputType.number,
               controller: noOfPerson,
-              decoration: const InputDecoration(labelText: 'no of person'),
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'no of person'),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             TextFormField(
               keyboardType: TextInputType.number,
               controller: rateController,
-              decoration: const InputDecoration(labelText: 'Rate'),
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Rate'),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             TextFormField(
               keyboardType: TextInputType.number,
               controller: perAmountController,
-              decoration: const InputDecoration(labelText: 'No of days'),
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'No of days'),
             ),
             const SizedBox(height: 8),
           ],

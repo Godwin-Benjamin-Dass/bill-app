@@ -32,7 +32,11 @@ class GetUserDetails extends StatelessWidget {
             children: [
               TextFormField(
                 controller: _sellerNameController,
-                decoration: InputDecoration(labelText: nameCaption),
+                maxLines: 2,
+                decoration: InputDecoration(
+                  labelText: nameCaption,
+                  border: const OutlineInputBorder(),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the name';
@@ -40,9 +44,15 @@ class GetUserDetails extends StatelessWidget {
                   return null;
                 },
               ),
+              const SizedBox(
+                height: 10,
+              ),
               TextFormField(
                 controller: _sellerAddressController,
-                decoration: InputDecoration(labelText: addressCaption),
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: addressCaption),
+                maxLines: 4,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the address';
@@ -50,9 +60,15 @@ class GetUserDetails extends StatelessWidget {
                   return null;
                 },
               ),
+              const SizedBox(
+                height: 10,
+              ),
               TextFormField(
                 controller: _sellerGSTController,
-                decoration: InputDecoration(labelText: gstCaption),
+                decoration: InputDecoration(
+                  labelText: gstCaption,
+                  border: const OutlineInputBorder(),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter the GST';
